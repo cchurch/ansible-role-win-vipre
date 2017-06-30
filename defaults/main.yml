@@ -1,0 +1,32 @@
+---
+
+vipre_product: standard  # standard, premium, endpoint
+vipre_version: latest  # latest, 9.6, 9.5, 9.3
+
+vipre_backup: false
+vipre_backup_remote: true
+vipre_backup_remote_path: ''
+vipre_backup_local: false
+vipre_backup_local_path: ''
+vipre_backup_suffix: '-{{ansible_date_time.iso8601_basic_short|mandatory}}'
+vipre_backup_ini: true
+
+vipre_restore: false
+vipre_restore_remote: false
+vipre_restore_remote_path: ''
+vipre_restore_local: false
+vipre_restore_local_path: ''
+vipre_restore_site_guid: ''
+vipre_restore_reg_code: ''
+
+vipre_install: false
+vipre_force_install: false
+vipre_download_url: '{{vipre_versions[(vipre_version|string)][vipre_product].download_url|mandatory}}'
+vipre_product_id: '{{vipre_versions[(vipre_version|string)][vipre_product].product_id|mandatory}}'
+
+vipre_uninstall: false
+vipre_uninstall_product: '{{vipre_product}}'
+vipre_uninstall_version: '{{vipre_version}}'
+vipre_uninstall_product_id: '{{vipre_versions[(vipre_uninstall_version|string)][vipre_uninstall_product].product_id|mandatory}}'
+vipre_uninstall_registry: false
+vipre_uninstall_data: false

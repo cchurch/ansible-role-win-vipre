@@ -1,0 +1,89 @@
+---
+
+- name: check if database path exists
+  win_stat:
+    path: '{{_vipre_database_file}}'
+  register: _vipre_database_file_stat
+  when: _vipre_database_file is defined
+
+- block:
+
+    - name: create temporary remote database filename
+      win_tempfile:
+        state: file
+        path: '{{_vipre_database_file|win_dirname}}'
+        prefix: 'vipre-backup.'
+        suffix: '.s3db'
+      register: _vipre_backup_tempfile
+
+    - block:
+
+        - name: stop vipre service
+          win_service:
+            name: '{{vipre_service_name}}'
+            state: stopped
+          when: _vipre_installed_version|default("",true)
+
+        - name: copy database file to temporary database file
+          win_copy:
+            src: '{{_vipre_database_file}}'
+            dest: '{{_vipre_backup_tempfile.path}}'
+            remote_src: true
+
+        - name: backup site guid and reg code to temporary ini file
+          win_template:
+            src: 'backup.ini.j2'
+            dest: '{{_vipre_backup_tempfile.path}}.ini'
+          when: vipre_backup_ini
+
+      always:
+
+        - name: restart vipre service
+          win_service:
+            name: '{{vipre_service_name}}'
+            state: started
+          when: _vipre_installed_version|default("",true)
+
+    - name: copy temporary database file to remote backup path
+      win_copy:
+        src: '{{_vipre_backup_tempfile.path}}'
+        dest: '{{vipre_backup_remote_path|default(_vipre_database_file,true)}}{{vipre_backup_suffix|default("-backup",true)}}'
+        remote_src: true
+      when: vipre_backup_remote
+
+    - name: copy temporary ini file to remote ini path
+      win_copy:
+        src: '{{_vipre_backup_tempfile.path}}.ini'
+        dest: '{{vipre_backup_remote_path|default(_vipre_database_file,true)}}{{vipre_backup_suffix|default("-backup",true)}}.ini'
+        remote_src: true
+      when: vipre_backup_remote and vipre_backup_ini
+
+    - name: copy temporary database file to local backup path
+      fetch:
+        src: '{{_vipre_backup_tempfile.path}}'
+        dest: '{{vipre_backup_local_path|default(_vipre_database_file|win_basename,true)}}{{vipre_backup_suffix}}'
+        flat: true
+      when: vipre_backup_local
+
+    - name: copy temporary ini file to local ini path
+      fetch:
+        src: '{{_vipre_backup_tempfile.path}}.ini'
+        dest: '{{vipre_backup_local_path|default(_vipre_database_file|win_basename,true)}}{{vipre_backup_suffix}}.ini'
+        flat: true
+      when: vipre_backup_local and vipre_backup_ini
+
+  always:
+
+    - name: remove temporary database file
+      win_file:
+        path: '{{_vipre_backup_tempfile.path}}'
+        state: absent
+      when: _vipre_backup_tempfile is defined
+
+    - name: remove temporary ini file
+      win_file:
+        path: '{{_vipre_backup_tempfile.path}}.ini'
+        state: absent
+      when: _vipre_backup_tempfile is defined and vipre_backup_ini
+
+  when: (_vipre_database_file_stat.stat|default({})).exists|default(false)

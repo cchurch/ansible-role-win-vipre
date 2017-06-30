@@ -1,0 +1,17 @@
+---
+
+- name: uninstall vipre
+  raw: MsiExec /x'{{vipre_uninstall_product_id}}' /qn
+  when: _vipre_installed_version|default("",true) and vipre_uninstall_product_id|default("",true)
+
+- name: remove all vipre registry keys
+  win_regedit:
+    path: '{{_vipre_registry_path}}'
+    state: absent
+  when: vipre_uninstall_registry
+
+- name: remove all vipre program data
+  win_file:
+    path: '{{_vipre_data_path}}'
+    state: absent
+  when: vipre_uninstall_data and _vipre_data_path|default("",true)

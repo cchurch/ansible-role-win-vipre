@@ -1,0 +1,40 @@
+---
+
+- block:
+
+    - name: create temporary installer filename
+      win_tempfile:
+        state: file
+        prefix: 'vipre-{{vipre_product}}-{{vipre_version}}-'
+        suffix: '.exe'
+      register: _vipre_installer_tempfile
+
+    - name: download vipre installer
+      win_get_url:
+        url: '{{vipre_download_url}}'
+        dest: '{{_vipre_installer_tempfile.path}}'
+
+    - name: get version of vipre downloaded
+      win_file_version:
+        path: '{{_vipre_installer_tempfile.path}}'
+      register: _vipre_installer_file_version
+      failed_when: '"product_version" not in _vipre_installer_file_version.win_file_version'
+
+    - name: compare downloaded and installed versions
+      set_fact:
+        _vipre_needs_upgrade: '{{_vipre_installed_version|default("0",true)|version_compare(_vipre_installer_file_version.win_file_version.product_version, "<")}}'
+
+    - name: install vipre
+      win_package:
+        path: '{{_vipre_installer_tempfile.path}}'
+        product_id: '{{vipre_product_id}}'
+        arguments: /S /v/qn
+      when: _vipre_needs_upgrade or vipre_force_install
+
+  always:
+
+    - name: remove temporary installer file
+      win_file:
+        path: '{{_vipre_installer_tempfile.path}}'
+        state: absent
+      when: _vipre_installer_tempfile is defined

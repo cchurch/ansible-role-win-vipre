@@ -1,0 +1,48 @@
+---
+
+# Information gathered from:
+# https://support.threattracksecurity.com/support/solutions/articles/1000071023-downloading-previous-versions-of-the-vipre-business-console
+
+vipre_versions:
+  'latest':
+    standard:
+      download_url: http://go.threattracksecurity.com/?linkid=401
+      product_id: '{2208A809-5193-47A7-AD2D-6D35EC6BB0BE}'
+    premium:
+      download_url: http://go.threattracksecurity.com/?linkid=402
+      product_id: '{E9AC36D0-B5C4-4E08-80A0-375C4230177F}'
+    endpoint:
+      download_url: http://go.threattracksecurity.com/?linkid=443
+      product_id: '{9029854B-53C0-42FF-B932-B55933BC597A}'
+  '9.6':
+    standard:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VPE_EN.9.6.0.21.exe
+      product_id: '{2208A809-5193-47A7-AD2D-6D35EC6BB0BE}'
+    premium:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VEP_EN.9.6.0.21.exe
+      product_id: '{E9AC36D0-B5C4-4E08-80A0-375C4230177F}'
+    endpoint:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VPS_EN.9.6.0.21.exe
+      product_id: '{9029854B-53C0-42FF-B932-B55933BC597A}'
+  '9.5':
+    standard:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VPE_EN.9.5.2.5.exe
+      product_id: '{CCCC6109-9AF8-426B-BD67-B29E31CEE222}'
+    premium:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VEP_EN.9.5.2.5.exe
+      product_id: '{FD358CEF-6807-4076-B6D4-DE1AF45D9975}'
+    endpoint:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VES_EN.9.5.2.5.exe
+      product_id: '{4D6E902F-8601-4DF1-B4D9-22798AC335F6}'
+  '9.3':
+    standard:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VPE_EN.9.3.4.3.exe
+      product_id: '{A4E720B6-8A89-49DE-8DF3-67BBEDA7EF7C}'
+    premium:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VEP_EN.9.3.4.3.exe
+      product_id: '{5A2BB62F-CCEC-4EF7-9EDE-5EB6883456C3}'
+    endpoint:
+      download_url: http://go.threattracksecurity.com/files/support/VIPRE_Business/Installers/VES_EN.9.3.4.3.exe
+      product_id: '{BB459959-0F45-4A53-8484-BCD97EF98608}'
+
+vipre_service_name: 'VIPRE Business Service'

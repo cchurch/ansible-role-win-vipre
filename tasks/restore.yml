@@ -52,6 +52,14 @@
         data: '{{vipre_restore_reg_code|string}}'
       when: vipre_restore_reg_code|string
 
+    - name: mark post install wizard as having run
+      win_regedit:
+        path: '{{_vipre_registry_path}}'
+        name: HasRunPostInstallWizard
+        data: 1
+        type: dword
+      when: vipre_restore_post_install_wizard|bool
+
   always:
 
     - name: restart vipre service

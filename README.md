@@ -101,9 +101,12 @@ variables:
   `vipre_restore_local` is `true`.
 - **`vipre_restore_site_guid`**: Specify the value of the Site GUID to restore to
   the registry; default is `""`, which doesn't restore the Site GUID.
-- **`vipre_restore_reg_code`**: Specify the value of the Registration Code to
+- `vipre_restore_reg_code`: Specify the value of the Registration Code to
   restore to the registry; default is `""`, which doesn't restore the
-  Registration Code.
+  Registration Code. This option only updates the registry, so it may be
+  overwritten if the database does not match.
+- `vipre_restore_post_install_wizard`: Set a registry key indicating the
+  post-install wizard has been run; default is `true`.
 
 Example Playbook
 ----------------

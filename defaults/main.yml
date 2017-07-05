@@ -20,6 +20,7 @@ vipre_restore_local: false
 vipre_restore_local_path: ''
 vipre_restore_site_guid: ''
 vipre_restore_reg_code: ''
+vipre_restore_post_install_wizard: true
 
 vipre_install: false
 vipre_force_install: false

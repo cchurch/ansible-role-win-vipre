@@ -12,7 +12,7 @@
       win_service:
         name: '{{vipre_service_name}}'
         state: stopped
-      when: _vipre_installed_version
+      when: _vipre_installed_version|default("",true)
 
     - name: create database path if needed
       win_file:
@@ -58,4 +58,4 @@
       win_service:
         name: '{{vipre_service_name}}'
         state: started
-      when: _vipre_installed_version
+      when: _vipre_installed_version|default("",true)

@@ -5,12 +5,6 @@
 - include: backup.yml
   when: vipre_backup and (vipre_backup_remote or vipre_backup_local)
 
-- include: restore.yml
-  when: vipre_restore and (vipre_restore_remote or vipre_restore_local or vipre_restore_site_guid or vipre_restore_reg_code)
-
-- include: check.yml
-  when: vipre_restore
-
 - include: uninstall.yml
   when: vipre_uninstall
 
@@ -22,3 +16,9 @@
 
 - include: check.yml
   when: vipre_install
+
+- include: restore.yml
+  when: vipre_restore and (vipre_restore_remote or vipre_restore_local or vipre_restore_site_guid or vipre_restore_reg_code)
+
+- include: check.yml
+  when: vipre_restore

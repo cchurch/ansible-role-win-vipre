@@ -2,7 +2,7 @@
 
 - name: determine vipre registry path
   set_fact:
-    _vipre_registry_path: 'HKLM:\SOFTWARE\{% if ansible_architecture == "64-bit" %}WOW6432Node\{% endif %}VIPRE Business'
+    _vipre_registry_path: 'HKLM:\SOFTWARE\{% if ansible_architecture == "64-bit" %}WOW6432Node\{% endif %}{{vipre_regkey_name}}'
 
 - name: get installed values from registry
   win_reg_stat:
@@ -18,6 +18,6 @@
 
 - name: determine vipre database paths
   set_fact:
-    _vipre_data_path: '{{_vipre_installed_data_path}}\VIPRE Business'
-    _vipre_database_file: '{{_vipre_installed_data_path}}\VIPRE Business\SQLite\VIPRE.s3db'
+    _vipre_data_path: '{{_vipre_installed_data_path}}\{{vipre_datadir_name}}'
+    _vipre_database_file: '{{_vipre_installed_data_path}}\{{vipre_datadir_name}}\SQLite\VIPRE.s3db'
   when: _vipre_installed_data_path|default("",true)

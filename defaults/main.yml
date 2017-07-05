@@ -2,6 +2,8 @@
 
 vipre_product: standard  # standard, premium, endpoint
 vipre_version: latest  # latest, 9.6, 9.5, 9.3
+vipre_regkey_name: 'VIPRE Business'
+vipre_datadir_name: 'VIPRE Business'
 
 vipre_backup: false
 vipre_backup_remote: true

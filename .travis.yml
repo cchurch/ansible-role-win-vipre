@@ -5,6 +5,9 @@ python: '2.7'
 env:
   matrix:
     - ANSIBLE_VERSION_SPEC="ansible>=2.3,<2.4"
+branches:
+  only:
+  - master
 
 install:
   - pip install $ANSIBLE_VERSION_SPEC boto pywinrm

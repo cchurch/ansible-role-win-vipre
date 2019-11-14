@@ -1,24 +1,24 @@
 ---
 
-- include: check.yml
+- import_tasks: check.yml
 
-- include: backup.yml
+- import_tasks: backup.yml
   when: vipre_backup and (vipre_backup_remote or vipre_backup_local)
 
-- include: uninstall.yml
+- import_tasks: uninstall.yml
   when: vipre_uninstall
 
-- include: check.yml
+- import_tasks: check.yml
   when: vipre_uninstall
 
-- include: install.yml
+- import_tasks: install.yml
   when: vipre_install
 
-- include: check.yml
+- import_tasks: check.yml
   when: vipre_install
 
-- include: restore.yml
+- import_tasks: restore.yml
   when: vipre_restore and (vipre_restore_remote or vipre_restore_local or vipre_restore_site_guid or vipre_restore_reg_code)
 
-- include: check.yml
+- import_tasks: check.yml
   when: vipre_restore

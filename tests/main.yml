@@ -3,4 +3,4 @@
 - name: TODO - test vipre role
   hosts: vipre
   roles:
-    - role: cchurch.vipre
+    - role: cchurch.win-vipre

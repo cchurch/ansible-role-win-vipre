@@ -1,0 +1,9 @@
+[vipre]
+vipre.example.com
+
+[vipre:vars]
+ansible_connection=winrm
+ansible_port=5986
+ansible_user=Administrator
+ansible_password='changeme'
+ansible_winrm_server_cert_validation=ignore

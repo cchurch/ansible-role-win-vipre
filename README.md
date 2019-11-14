@@ -29,7 +29,9 @@ managed. These variables affect the the install and uninstall steps of this role
 - **`vipre_product`**: VIPRE Business product, should be one of `"standard"`,
   `"premium"` or `"endpoint"`, default is `"standard"`.
 - **`vipre_version`**: Version of VIPRE Business to install, upgrade or uninstall.
-  Valid values are `"latest"`, `"9.6"`, `"9.5"` and `"9.3"`; default is `"latest"`.
+  Valid values are `"latest"`, `"11.0"` and `"10.0"` (for `"endpoint"` only),
+  `"10.1"` (for `"standard"` and `"premium"`), and `"9.6"`, `"9.5"` and `"9.3"`
+  (for any product); default is `"latest"`.
 - `vipre_regkey_name`: Specify an alternate path component to the VIPRE registry
   keys, usually only needed for older versions when using a custom
   `vipre_download_url` or `vipre_product_id`. Default is `"VIPRE Business"`.
@@ -120,7 +122,7 @@ the latest version in the second invocation:
         vipre_product: premium
       roles:
         - role: cchurch.vipre
-          vipre_version: 9.5
+          vipre_version: 10.1
           vipre_install: true
         - role: cchurch.vipre
           vipre_backup: true

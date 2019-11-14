@@ -4,21 +4,21 @@ galaxy_info:
   role_name: win-vipre
   author: Chris Church
   description: Manage VIPRE Business Antivirus Server on Windows.
-  company: 'Nine More Minutes, Inc.'
+  company: "Nine More Minutes, Inc."
   license: BSD
   min_ansible_version: 2.4
   platforms:
     - name: Windows
       versions:
-        - '2008R2'
-        - '2008x64'
-        - '2008x86'
-        - '2012'
-        - '2012R2'
-        - '2016'
-        - '2019'
+        - "2008R2"
+        - "2008x64"
+        - "2008x86"
+        - "2012"
+        - "2012R2"
+        - "2016"
+        - "2019"
   galaxy_tags:
-    - 'windows'
-    - 'vipre'
+    - "windows"
+    - "vipre"
 allow_duplicates: true
 dependencies: []

@@ -2,22 +2,27 @@
 
 - name: determine vipre registry path
   set_fact:
-    _vipre_registry_path: 'HKLM:\SOFTWARE\{% if ansible_architecture == "64-bit" %}WOW6432Node\{% endif %}{{vipre_regkey_name}}'
+    _vipre_registry_path: "HKLM:\\SOFTWARE\\{% if ansible_architecture == '64-bit' %}WOW6432Node\\{% endif %}{{ vipre_regkey_name }}"
 
 - name: get installed values from registry
   win_reg_stat:
-    path: '{{_vipre_registry_path}}'
+    path: "{{ _vipre_registry_path }}"
   register: _vipre_installed_registry_values
 
 - name: store installed vipre version and guid
   set_fact:
-    _vipre_installed_version: '{{((_vipre_installed_registry_values.properties|default({}))["Version"]|default({}))["value"]|default("")}}'
-    _vipre_installed_site_guid: '{{((_vipre_installed_registry_values.properties|default({}))["SiteGUID"]|default({}))["value"]|default("")}}'
-    _vipre_installed_data_path: '{{((_vipre_installed_registry_values.properties|default({}))["VolatileDataRepository"]|default({}))["value"]|default(ansible_env.ProgramData,true)}}'
-    _vipre_installed_reg_code: '{{((_vipre_installed_registry_values.properties|default({}))["RegistrationCode"]|default({}))["value"]|default("")}}'
+    _vipre_installed_version: >-
+      {{ ((_vipre_installed_registry_values.properties | default({}))['Version'] | default({}))['value'] | default('') }}
+    _vipre_installed_site_guid: >-
+      {{ ((_vipre_installed_registry_values.properties | default({}))['SiteGUID'] | default({}))['value'] | default('') }}
+    _vipre_installed_data_path: >-
+      {{ ((_vipre_installed_registry_values.properties | default({}))['VolatileDataRepository'] | default({}))['value'] |
+      default(ansible_env.ProgramData, true) }}
+    _vipre_installed_reg_code: >-
+      {{ ((_vipre_installed_registry_values.properties | default({}))['RegistrationCode'] | default({}))['value'] | default('') }}
 
 - name: determine vipre database paths
   set_fact:
-    _vipre_data_path: '{{_vipre_installed_data_path}}\{{vipre_datadir_name}}'
-    _vipre_database_file: '{{_vipre_installed_data_path}}\{{vipre_datadir_name}}\SQLite\VIPRE.s3db'
-  when: _vipre_installed_data_path|default("",true)
+    _vipre_data_path: "{{ _vipre_installed_data_path }}\\{{ vipre_datadir_name }}"
+    _vipre_database_file: "{{ _vipre_installed_data_path }}\\{{ vipre_datadir_name }}\\SQLite\\VIPRE.s3db"
+  when: _vipre_installed_data_path | default('', true)

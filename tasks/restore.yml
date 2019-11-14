@@ -3,67 +3,70 @@
 - name: check that only one restore source is specified
   assert:
     that:
-      - (vipre_restore_remote and not vipre_restore_local) or (vipre_restore_local and not vipre_restore_remote) or (not vipre_restore_local and not vipre_restore_remote)
-      - _vipre_database_file|default("",true)
+      - >-
+        (vipre_restore_remote and not vipre_restore_local) or
+        (vipre_restore_local and not vipre_restore_remote) or
+        (not vipre_restore_local and not vipre_restore_remote)
+      - _vipre_database_file | default('', true)
 
 - block:
 
     - name: stop vipre service
       win_service:
-        name: '{{vipre_service_name}}'
+        name: "{{ vipre_service_name }}"
         state: stopped
-      when: _vipre_installed_version|default("",true)
+      when: _vipre_installed_version | default('', true)
 
     - name: create database path if needed
       win_file:
-        path: '{{_vipre_database_file|win_dirname}}'
+        path: "{{ _vipre_database_file | win_dirname }}"
         state: directory
       when: vipre_restore_local or vipre_restore_remote
 
     - name: restore from remote database backup
       win_copy:
-        src: '{{vipre_restore_remote_path|default(omit,true)|mandatory}}'
-        dest: '{{_vipre_database_file}}'
+        src: "{{ vipre_restore_remote_path | default(omit, true) | mandatory }}"
+        dest: "{{ _vipre_database_file }}"
         remote_src: true
       when: vipre_restore_remote
 
     - name: restore from local database backup
       win_copy:
-        src: '{{vipre_restore_local_path|default(omit,true)|mandatory}}'
-        dest: '{{_vipre_database_file}}'
+        src: "{{ vipre_restore_local_path | default(omit, true) | mandatory }}"
+        dest: "{{ _vipre_database_file }}"
       when: vipre_restore_local
 
     - name: create registry path if needed
       win_regedit:
-        path: '{{_vipre_registry_path}}'
+        path: "{{ _vipre_registry_path }}"
       when: vipre_restore_site_guid or vipre_restore_reg_code
 
     - name: restore site guid
       win_regedit:
-        path: '{{_vipre_registry_path}}'
+        path: "{{ _vipre_registry_path }}"
         name: SiteGUID
-        data: '{{vipre_restore_site_guid|string}}'
-      when: vipre_restore_site_guid|string
+        data: "{{ vipre_restore_site_guid | string }}"
+      when: vipre_restore_site_guid | string
 
     - name: restore registration code
       win_regedit:
-        path: '{{_vipre_registry_path}}'
+        path: "{{ _vipre_registry_path }}"
         name: RegistrationCode
-        data: '{{vipre_restore_reg_code|string}}'
-      when: vipre_restore_reg_code|string
+        data: "{{ vipre_restore_reg_code | string }}"
+      when: vipre_restore_reg_code | string
 
     - name: mark post install wizard as having run
       win_regedit:
-        path: '{{_vipre_registry_path}}'
+        path: "{{ _vipre_registry_path }}"
         name: HasRunPostInstallWizard
         data: 1
         type: dword
-      when: vipre_restore_post_install_wizard|bool
+      when: vipre_restore_post_install_wizard | bool
 
   always:
 
     - name: restart vipre service
       win_service:
-        name: '{{vipre_service_name}}'
+        name: "{{ vipre_service_name }}"
         state: started
-      when: _vipre_installed_version|default("",true)
+      when: _vipre_installed_version | default('', true)
